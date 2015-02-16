@@ -10,7 +10,7 @@ class JOSSOAuth(BaseAuth):
     """JOSSO authentication backend for python-social-auth"""
 
     name = 'josso'
-    ID_KEY = 'id'
+    ID_KEY = 'email'
 
     def get_wsdl_url(self, name):
         return 'file:{0}'.format(os.path.join(WSDL_DIR, name))
@@ -41,10 +41,13 @@ class JOSSOAuth(BaseAuth):
         ))
         josso_user_info = ident_manager_client.service.findUserInSession(josso_session_id)
 
-        data = {'username': josso_user_info.name}
+        data = {
+            'username': josso_user_info.name,
+            'session_id': josso_session_id
+        }
         data.update({str(p.name): str(p.value) for p in josso_user_info.properties})
         response = kwargs.get('response') or {}
-        response.update(data or {})
+        response.update(data)
         kwargs.update({'response': response, 'backend': self})
         return self.strategy.authenticate(*args, **kwargs)
 
@@ -54,3 +57,8 @@ class JOSSOAuth(BaseAuth):
             'email': response.get('email', ''),
             'fullname': response.get('displayName')
         }
+
+    def extra_data(self, user, uid, response, details=None):
+        data = super(JOSSOAuth, self).extra_data(user, uid, response, details)
+        data['session_id'] = response.get('session_id')
+        return data
