@@ -1,7 +1,7 @@
 # python-josso-auth 0.1.0
 
-```python-josso-auth``` provides a ```JOSSOAuth``` authentication for ```python-social-auth``` which you subclass
-to add JOSSO providers as social auth options. To use, just create a class for your provider which extends 
+```python-josso-auth``` provides a ```JOSSOAuth``` authentication for ```python-social-auth``` which you can subclass
+to easily add JOSSO providers as social auth options. To use, just create a class for your provider which extends 
 ```JOSSOAuth``` and provide a name and base URL.
 
 ```python
