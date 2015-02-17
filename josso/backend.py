@@ -7,19 +7,23 @@ WSDL_DIR = os.path.join(os.path.dirname(__file__), 'wsdl')
 
 
 class JOSSOAuth(BaseAuth):
-    """JOSSO authentication backend for python-social-auth"""
+    """
+    Base JOSSO authentication backend for python-social-auth. Override and set BASE_URL to implement specific
+    JOSSO providers
+    """
 
-    name = 'josso'
     ID_KEY = 'email'
+
+    name = ''
+    base_url = ''
 
     def get_wsdl_url(self, name):
         return 'file:{0}'.format(os.path.join(WSDL_DIR, name))
 
     def get_base_url(self):
-        base_url = self.setting('BASE_URL')
-        if not base_url.endswith('/'):
-            base_url += '/'
-        return base_url
+        if not self.base_url.endswith('/'):
+            self.base_url += '/'
+        return self.base_url
 
     def auth_url(self):
         return '{0}signon/login.do?{1}'.format(
