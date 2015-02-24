@@ -1,2 +1,4 @@
 *.pyc
 python_josso_auth.egg-info/
+build/
+dist/
