@@ -12,7 +12,7 @@ class JOSSOAuth(BaseAuth):
     JOSSO providers
     """
 
-    ID_KEY = 'email'
+    ID_KEY = 'username'
 
     name = ''
     base_url = ''
