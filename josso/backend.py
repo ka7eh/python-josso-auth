@@ -1,6 +1,6 @@
 import os
 import six
-from social.backends.base import BaseAuth
+from social_core.backends.base import BaseAuth
 from suds.client import Client
 
 WSDL_DIR = os.path.join(os.path.dirname(__file__), 'wsdl')
@@ -62,7 +62,7 @@ class JOSSOAuth(BaseAuth):
             'fullname': response.get('displayName')
         }
 
-    def extra_data(self, user, uid, response, details=None):
-        data = super(JOSSOAuth, self).extra_data(user, uid, response, details)
+    def extra_data(self, user, uid, response, details=None, *args, **kwargs):
+        data = super(JOSSOAuth, self).extra_data(user, uid, response, details, *args, **kwargs)
         data['session_id'] = response.get('session_id')
         return data
